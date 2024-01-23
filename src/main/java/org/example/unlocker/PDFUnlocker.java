@@ -26,7 +26,7 @@ public class PDFUnlocker {
 
             for (String eachPassword : passwordList) {
                 if (tryUnlockFile(fileContent, eachPassword)) {
-                    System.out.println("Password was found : " + eachPassword);
+                    System.out.println("\nPassword was found : " + eachPassword);
                     break;
                 } else {
                     System.out.println("Password - " + eachPassword + " is incorrect");
@@ -42,9 +42,8 @@ public class PDFUnlocker {
 
     private boolean tryUnlockFile(byte[] fileContent, String password) {
         try (PDDocument document = Loader.loadPDF(fileContent, password)) {
-            if (!document.isEncrypted()) {
-                return true;
-            }
+            // password was found because it otherwise it will throw an Exception
+            return true;
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
