@@ -11,18 +11,20 @@ import java.nio.file.Files;
 public class PDFUnlocker {
 
     private final NumberGuesser numberGuesser;
+    private boolean passwordFound = false;
 
     public PDFUnlocker(NumberGuesser numberGuesser) {
         this.numberGuesser = numberGuesser;
     }
 
-    public void unlockPDF(File file) {
+    public boolean unlockPDF(File file) {
         try {
             byte[] fileContent = Files.readAllBytes(file.toPath());
 
             numberGuesser.generateAndUsePassword(eachPassword -> {
                 if (tryUnlockFile(fileContent, eachPassword)) {
                     System.out.println("\nPassword was found : " + eachPassword);
+                    passwordFound = true;
                     numberGuesser.setStopGeneration(true);
                 }
             });
@@ -31,6 +33,7 @@ public class PDFUnlocker {
             throw new RuntimeException(e);
         }
 
+        return passwordFound;
     }
 
     private boolean tryUnlockFile(byte[] fileContent, String password) {
