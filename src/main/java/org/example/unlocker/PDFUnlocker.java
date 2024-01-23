@@ -24,8 +24,6 @@ public class PDFUnlocker {
                 if (tryUnlockFile(fileContent, eachPassword)) {
                     System.out.println("\nPassword was found : " + eachPassword);
                     numberGuesser.setStopGeneration(true);
-                } else {
-                    System.out.println("Password - " + eachPassword + " is incorrect");
                 }
             });
 
@@ -40,7 +38,7 @@ public class PDFUnlocker {
             // password was found because it otherwise it will throw an Exception
             return true;
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " - {" + password + "}");
         }
         return false;
     }
